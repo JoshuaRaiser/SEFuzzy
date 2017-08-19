@@ -1,0 +1,75 @@
+FUNCTION_BLOCK arcondicionado	// Block definition (there may be more than one block per file)
+
+VAR_INPUT	// Define input variables
+	temperatura_desejada : REAL; // temperatura desejada
+	temperatura_ambiente : REAL; // temperatura ambiente
+END_VAR
+
+VAR_OUTPUT	// Define output variable
+	temperatura_saida : REAL; // temperatura de sa�da
+	velocidade_saida : REAL; // velocidade de sa�da do ar
+END_VAR
+
+FUZZIFY temperatura_desejada	// Fuzzify input variable 'temperatura desejada': {'baixa', 'media' , 'alta'}
+	TERM baixa := (17, 1) (21, 0) ; 
+	TERM media := (19, 0) (22, 1) (25, 0);
+	TERM alta  := (23, 0) (28, 1);
+END_FUZZIFY
+
+FUZZIFY temperatura_ambiente	// Fuzzify input variable 'temperatura ambiente': { 'baixa', 'media', 'alta' }
+	TERM baixa := (10, 1) (23, 0) ; 
+	TERM media := (21, 0) (25, 1) (29, 0);
+	TERM alta  := (27, 0) (35, 1);
+END_FUZZIFY
+
+DEFUZZIFY temperatura_saida 	// Defuzzify output variable 'temperatura de sa�da': { 'baixa', 'media', 'alta' }
+	TERM baixa := (10, 1) (22, 0) ; 
+	TERM media := (20, 0) (21, 1) (28, 0);
+	TERM alta  := (26, 0) (35, 1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+DEFUZZIFY velocidade_saida	// Defuzzify output variable 'velocidade de sa�da do ar': { 'baixa', 'media', 'alta' }
+	TERM baixa := (1, 1) (3, 0) ; 
+	TERM media := (2, 0) (3, 1) (4, 0);
+	TERM alta  := (3, 0) (5, 1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;	// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;	// Use 'min' activation method
+	ACCU : MAX;	// Use 'max' accumulation method
+
+	RULE 1 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS baixa THEN velocidade_saida IS baixa;
+	RULE 2 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS baixa THEN temperatura_saida IS baixa;
+	
+	RULE 3 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS media THEN velocidade_saida IS media;
+	RULE 4 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS media THEN temperatura_saida IS baixa;
+	
+	RULE 5 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS alta THEN velocidade_saida IS alta;
+	RULE 6 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS alta THEN temperatura_saida IS baixa;
+	
+	RULE 7 : IF temperatura_desejada IS media AND temperatura_ambiente IS baixa THEN velocidade_saida IS media;
+	RULE 8 : IF temperatura_desejada IS media AND temperatura_ambiente IS baixa THEN temperatura_saida IS media;
+	
+	RULE 9 : IF temperatura_desejada IS media AND temperatura_ambiente IS media THEN velocidade_saida IS baixa;
+	RULE 10 : IF temperatura_desejada IS media AND temperatura_ambiente IS media THEN temperatura_saida IS media;
+	
+	RULE 11 : IF temperatura_desejada IS media AND temperatura_ambiente IS alta THEN velocidade_saida IS baixa;
+	RULE 12 : IF temperatura_desejada IS media AND temperatura_ambiente IS alta THEN temperatura_saida IS media;
+	
+	RULE 13 : IF temperatura_desejada IS alta AND temperatura_ambiente IS baixa THEN velocidade_saida IS alta;
+	RULE 14 : IF temperatura_desejada IS alta AND temperatura_ambiente IS baixa THEN temperatura_saida IS alta;
+	
+	RULE 15 : IF temperatura_desejada IS alta AND temperatura_ambiente IS media THEN velocidade_saida IS baixa;
+	RULE 16 : IF temperatura_desejada IS alta AND temperatura_ambiente IS media THEN temperatura_saida IS media;
+	
+	RULE 17 : IF temperatura_desejada IS alta AND temperatura_ambiente IS alta THEN velocidade_saida IS baixa;
+	RULE 18 : IF temperatura_desejada IS alta AND temperatura_ambiente IS alta THEN temperatura_saida IS alta;
+	
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
