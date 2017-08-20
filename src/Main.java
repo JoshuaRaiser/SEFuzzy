@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -15,14 +17,15 @@ import net.sourceforge.jFuzzyLogic.plot.JDialogFis;
  *
  * @author Joshua Raiser
  */
-public class Main extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame{
 
     /**
      * Creates new form Main
      */
     
     FIS fis;
-            
+    JDialogFis jdf;
+    
     //JFreeChart chart_tempD, chart_tempA, chart_tempS, chart_veloci;
     //ChartPanel chartPanel_tempD, chartPanel_tempA, chartPanel_tempS, chartPanel_veloci;
     
@@ -63,7 +66,7 @@ public class Main extends javax.swing.JFrame {
         veloci.setLayout(new BorderLayout());
         veloci.add(chartPanel_veloci);
         */
-        JDialogFis jdf = new JDialogFis(fis, fuzzyPanelChart.getWidth()+20, fuzzyPanelChart.getHeight()+40);
+        jdf = new JDialogFis(fis, fuzzyPanelChart.getWidth()+20, fuzzyPanelChart.getHeight()+40);
         jdf.setVisible(false);
         JPanel pannelChart = jdf.getPanel();
         fuzzyPanelChart.add(pannelChart, BorderLayout.CENTER);
@@ -388,7 +391,6 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -399,7 +401,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(temp_a_val, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -506,7 +508,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(199, 199, 199)
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addGap(133, 133, 133))
         );
@@ -557,17 +559,19 @@ public class Main extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -580,7 +584,7 @@ public class Main extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -598,9 +602,6 @@ public class Main extends javax.swing.JFrame {
         
         fis.evaluate();
         
-        fis.getVariable("temperatura_saida").getDefuzzifier();        
-        fis.getVariable("velocidade_saida").getDefuzzifier();        
-        
         float tempS = (float)fis.getVariable("temperatura_saida").getLatestDefuzzifiedValue();
         float veloci = (float)fis.getVariable("velocidade_saida").getLatestDefuzzifiedValue();
         
@@ -612,8 +613,65 @@ public class Main extends javax.swing.JFrame {
 
     private void fuzzyButtonSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fuzzyButtonSimularActionPerformed
         // TODO add your handling code here:
+        
+        Simulacao simulacao = new Simulacao();
+        Thread thread = new Thread(simulacao);
+        thread.start();
+        
     }//GEN-LAST:event_fuzzyButtonSimularActionPerformed
+        
+    public class Simulacao implements Runnable
+    {
+        @Override
+        public void run() {
+            fuzzyButton.setEnabled(false);
+            fuzzyButtonSimular.setEnabled(false);
 
+            float tempD = (float)temp_d_val.getValue();
+            //float tempA = (float)temp_a_val.getValue();
+            
+            if((float)temp_a_val.getValue() > tempD)
+            {
+                for(float tempA = (float)temp_a_val.getValue(); tempA > tempD; tempA-=0.1)
+                {            
+                    fis.getVariable("temperatura_desejada").setValue(tempD);
+                    fis.getVariable("temperatura_ambiente").setValue(tempA);
+                    fis.evaluate();
+
+                    fuzzyPanelChart.repaint();
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao iniciar thread\n"+ex.getMessage(), "Erro ao iniciar simulação", JOptionPane.ERROR_MESSAGE);
+                        System.exit(0);
+                    }
+                }
+            }
+            else
+            {
+                for(float tempA = (float)temp_a_val.getValue(); tempA < tempD; tempA+=0.1)
+                {            
+                    fis.getVariable("temperatura_desejada").setValue(tempD);
+                    fis.getVariable("temperatura_ambiente").setValue(tempA);
+                    fis.evaluate();
+
+                    fuzzyPanelChart.repaint();
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao iniciar thread\n"+ex.getMessage(), "Erro ao iniciar simulação", JOptionPane.ERROR_MESSAGE);
+                        System.exit(0);
+                    }
+                }
+            }
+            
+
+            fuzzyButton.setEnabled(true);
+            fuzzyButtonSimular.setEnabled(true);
+        }        
+    }
     
     /**
      * @param args the command line arguments
