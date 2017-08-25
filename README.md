@@ -10,3 +10,6 @@ A modelagem e desenvolvimento do problema pode ser encontrada [aqui](https://git
 Tela da aplicação/sistema desenvolvido implementando a API do JFuzzyLogic
 
 ![Tela da aplicação](sistema_es_fuzzy.PNG)
+
+TODOS:
++ Adicionar parametrização para que seja possível mudar as regras e intervalo nas funções de pertinência.
