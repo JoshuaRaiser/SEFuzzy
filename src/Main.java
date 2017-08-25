@@ -308,7 +308,6 @@ public class Main extends javax.swing.JFrame{
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Especialista - Ar Condicionado Fuzzy");
         setLocationByPlatform(true);
-        setMaximumSize(new java.awt.Dimension(1400, 900));
         setMinimumSize(new java.awt.Dimension(950, 604));
         setResizable(false);
         setSize(new java.awt.Dimension(1200, 800));
@@ -374,16 +373,18 @@ public class Main extends javax.swing.JFrame{
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("TEMPERATURA AMBIEMTE (TA)");
 
-        temp_a_val.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(32.0f), Float.valueOf(10.0f), Float.valueOf(35.0f), Float.valueOf(0.1f)));
+        temp_a_val.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        temp_a_val.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(32.0f), Float.valueOf(5.0f), Float.valueOf(38.0f), Float.valueOf(0.1f)));
         temp_a_val.setNextFocusableComponent(temp_d_val);
 
-        temp_d_val.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(25.0f), Float.valueOf(17.0f), Float.valueOf(28.0f), Float.valueOf(1.0f)));
+        temp_d_val.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        temp_d_val.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(25.0f), Float.valueOf(16.0f), Float.valueOf(30.0f), Float.valueOf(1.0f)));
         temp_d_val.setNextFocusableComponent(temp_a_val);
 
-        fv_val_label.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        fv_val_label.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         fv_val_label.setForeground(new java.awt.Color(255, 255, 255));
 
-        ts_val_label.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
+        ts_val_label.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         ts_val_label.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -638,8 +639,12 @@ public class Main extends javax.swing.JFrame{
                     fis.getVariable("temperatura_ambiente").setValue(tempA);
                     fis.evaluate();
 
-                    fuzzyPanelChart.repaint();
+                    float tempS = (float)fis.getVariable("temperatura_saida").getLatestDefuzzifiedValue();
+                    float veloci = (float)fis.getVariable("velocidade_saida").getLatestDefuzzifiedValue();
+                    ts_val_label.setText(String.format("%.2f", tempS)+" ºC");
+                    fv_val_label.setText(String.format("%.2f", veloci)+" força do vento");
 
+                    fuzzyPanelChart.repaint();
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
@@ -656,8 +661,12 @@ public class Main extends javax.swing.JFrame{
                     fis.getVariable("temperatura_ambiente").setValue(tempA);
                     fis.evaluate();
 
-                    fuzzyPanelChart.repaint();
+                    float tempS = (float)fis.getVariable("temperatura_saida").getLatestDefuzzifiedValue();
+                    float veloci = (float)fis.getVariable("velocidade_saida").getLatestDefuzzifiedValue();
+                    ts_val_label.setText(String.format("%.2f", tempS)+" ºC");
+                    fv_val_label.setText(String.format("%.2f", veloci)+" força do vento");
 
+                    fuzzyPanelChart.repaint();
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
