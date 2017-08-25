@@ -371,7 +371,7 @@ public class Main extends javax.swing.JFrame{
 
         jLabel4.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("TEMPERATURA AMBIEMTE (TA)");
+        jLabel4.setText("TEMPERATURA AMBIENTE (TA)");
 
         temp_a_val.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         temp_a_val.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(32.0f), Float.valueOf(5.0f), Float.valueOf(38.0f), Float.valueOf(0.1f)));
