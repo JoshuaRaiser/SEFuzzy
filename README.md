@@ -13,4 +13,4 @@ Tela da aplicação/sistema desenvolvido implementando a API do JFuzzyLogic
 
 TODOS:
 + Adicionar parametrização para que seja possível mudar as regras e intervalo nas funções de pertinência.
-+ Adicionar relatorio para simulação (gerar saída escrita).
++ Adicionar relótorio para simulação (gerar saída escrita).
