@@ -44,7 +44,7 @@ RULEBLOCK No1
 	ACCU : MAX;	// Use 'max' accumulation method
 
 	RULE 1 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS baixa THEN velocidade_saida IS baixa;
-	RULE 2 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS baixa THEN temperatura_saida IS baixa;
+	//RULE 2 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS baixa THEN temperatura_saida IS baixa;
 	
 	RULE 3 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS media THEN velocidade_saida IS media;
 	RULE 4 : IF temperatura_desejada IS baixa AND temperatura_ambiente IS media THEN temperatura_saida IS baixa;
@@ -68,7 +68,7 @@ RULEBLOCK No1
 	RULE 16 : IF temperatura_desejada IS alta AND temperatura_ambiente IS media THEN temperatura_saida IS media;
 	
 	RULE 17 : IF temperatura_desejada IS alta AND temperatura_ambiente IS alta THEN velocidade_saida IS baixa;
-	RULE 18 : IF temperatura_desejada IS alta AND temperatura_ambiente IS alta THEN temperatura_saida IS alta;
+	RULE 18 : IF temperatura_desejada IS alta AND temperatura_ambiente IS alta THEN temperatura_saida IS media;
 	
 END_RULEBLOCK
 
