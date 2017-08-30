@@ -378,7 +378,7 @@ public class Main extends javax.swing.JFrame{
         temp_a_val.setNextFocusableComponent(temp_d_val);
 
         temp_d_val.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
-        temp_d_val.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(25.0f), Float.valueOf(16.0f), Float.valueOf(30.0f), Float.valueOf(1.0f)));
+        temp_d_val.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(21.0f), Float.valueOf(16.0f), Float.valueOf(30.0f), Float.valueOf(1.0f)));
         temp_d_val.setNextFocusableComponent(temp_a_val);
 
         fv_val_label.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N

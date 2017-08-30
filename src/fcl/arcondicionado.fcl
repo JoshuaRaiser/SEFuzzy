@@ -68,7 +68,7 @@ RULEBLOCK No1
 	RULE 16 : IF temperatura_desejada IS alta AND temperatura_ambiente IS media THEN temperatura_saida IS media;
 	
 	RULE 17 : IF temperatura_desejada IS alta AND temperatura_ambiente IS alta THEN velocidade_saida IS baixa;
-	RULE 18 : IF temperatura_desejada IS alta AND temperatura_ambiente IS alta THEN temperatura_saida IS media;
+	RULE 18 : IF temperatura_desejada IS alta AND temperatura_ambiente IS alta THEN temperatura_saida IS alta;
 	
 END_RULEBLOCK
 
